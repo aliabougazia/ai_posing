@@ -55,7 +55,7 @@ class AIPOSE_PT_MainPanel(Panel):
         col.scale_y = 1.5
         
         # Check if ready to generate
-        can_generate = (
+        can_generate = bool(
             scene.ai_pose_target_object and 
             scene.ai_pose_armature and 
             scene.ai_pose_prompt and
