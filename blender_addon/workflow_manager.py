@@ -89,10 +89,20 @@ class WorkflowManager:
         
         for node_id, node_data in updated.items():
             if not isinstance(node_data, dict):
+                print(f"Warning: Node {node_id} is not a dict, skipping")
+                continue
+            
+            # Ensure class_type exists
+            if 'class_type' not in node_data:
+                print(f"Warning: Node {node_id} missing class_type, skipping")
                 continue
             
             class_type = node_data.get('class_type', '')
             inputs = node_data.get('inputs', {})
+            
+            if not isinstance(inputs, dict):
+                print(f"Warning: Node {node_id} inputs is not a dict, skipping")
+                continue
             
             # Look for image load nodes
             if 'LoadImage' in class_type or 'Image' in class_type:

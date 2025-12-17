@@ -172,8 +172,20 @@ class AIPOSE_OT_GeneratePose(Operator):
                 scene.ai_pose_prompt
             )
             
+            # Validate updated workflow before sending
+            is_valid, validation_error = wm.validate_workflow_structure(updated_workflow)
+            if not is_valid:
+                self.report({'ERROR'}, f"Workflow validation failed: {validation_error}")
+                return {'CANCELLED'}
+            
             # Queue prompt
             self.report({'INFO'}, "Sending to ComfyUI for processing...")
+            
+            # Debug: Print workflow structure
+            print(f"Workflow has {len(updated_workflow)} nodes")
+            for node_id in updated_workflow.keys():
+                print(f"  Node {node_id}: {updated_workflow[node_id].get('class_type', 'NO CLASS_TYPE')}")
+            
             prompt_id = client.queue_prompt(updated_workflow)
             
             if not prompt_id:
