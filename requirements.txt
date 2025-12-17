@@ -1,0 +1,24 @@
+# Python Requirements for AI Pose Generator Blender Add-on
+
+## Required (for basic functionality)
+# These are typically included with Blender's Python
+numpy>=1.20.0
+
+## Optional (for enhanced functionality)
+# Install these in Blender's Python for better image processing
+opencv-python>=4.5.0
+
+## Development Dependencies (not needed for add-on usage)
+# Only needed if you're developing/testing the add-on
+pytest>=7.0.0
+black>=22.0.0
+pylint>=2.12.0
+
+## Notes:
+# - Blender includes its own Python environment
+# - To install packages in Blender's Python:
+#   1. Find Blender's Python executable
+#   2. Use: /path/to/blender/python -m pip install package-name
+#
+# - OpenCV is optional but recommended for better bone detection
+# - The add-on will work without OpenCV but with reduced accuracy

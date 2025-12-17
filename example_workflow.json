@@ -1,0 +1,77 @@
+{
+  "1": {
+    "_meta": {
+      "title": "Front View Image Loader"
+    },
+    "inputs": {
+      "image": "front_rest.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "_meta": {
+      "title": "Side View Image Loader"
+    },
+    "inputs": {
+      "image": "side_rest.png",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "_meta": {
+      "title": "Pose Prompt"
+    },
+    "inputs": {
+      "text": "running pose"
+    },
+    "class_type": "String"
+  },
+  "4": {
+    "_meta": {
+      "title": "Front Image Edit"
+    },
+    "inputs": {
+      "image": ["1", 0],
+      "prompt": ["3", 0],
+      "seed": 42,
+      "steps": 20,
+      "cfg": 7.5
+    },
+    "class_type": "QwenImageEdit"
+  },
+  "5": {
+    "_meta": {
+      "title": "Side Image Edit"
+    },
+    "inputs": {
+      "image": ["2", 0],
+      "prompt": ["3", 0],
+      "seed": 42,
+      "steps": 20,
+      "cfg": 7.5
+    },
+    "class_type": "QwenImageEdit"
+  },
+  "6": {
+    "_meta": {
+      "title": "Save Front Output"
+    },
+    "inputs": {
+      "images": ["4", 0],
+      "filename_prefix": "front_posed"
+    },
+    "class_type": "SaveImage"
+  },
+  "7": {
+    "_meta": {
+      "title": "Save Side Output"
+    },
+    "inputs": {
+      "images": ["5", 0],
+      "filename_prefix": "side_posed"
+    },
+    "class_type": "SaveImage"
+  }
+}
