@@ -4,6 +4,7 @@ Rendering utilities for capturing model and armature views
 
 import bpy
 import mathutils
+import math
 import os
 import tempfile
 from typing import Tuple, Optional
@@ -126,7 +127,7 @@ def frame_object_in_camera(obj: bpy.types.Object, camera: bpy.types.Object, marg
         sensor_size = camera_data.sensor_height
     
     fov = camera_data.angle
-    distance = (max_dim * margin) / (2 * mathutils.tan(fov / 2))
+    distance = (max_dim * margin) / (2 * math.tan(fov / 2))
     
     # Update camera position maintaining direction
     direction = (camera.location - center).normalized()
