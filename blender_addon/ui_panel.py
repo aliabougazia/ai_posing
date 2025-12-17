@@ -217,7 +217,7 @@ class AIPOSE_PT_HelpPanel(Panel):
         layout.separator()
         
         box = layout.box()
-        box.label(text="Tips:", icon='LIGHTPROBE_CUBEMAP')
+        box.label(text="Tips:", icon='INFO')
         col = box.column(align=True)
         col.label(text="• Keep prompts simple and clear")
         col.label(text="• Ensure bones are visible in renders")
