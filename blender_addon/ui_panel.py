@@ -33,6 +33,20 @@ class AIPOSE_PT_MainPanel(Panel):
         
         layout.separator()
         
+        # Workflow selection
+        box = layout.box()
+        box.label(text="ComfyUI Workflow:", icon='FILE')
+        row = box.row(align=True)
+        row.operator("aipose.load_workflow", icon='FILEBROWSER', text="Select Workflow")
+        if scene.ai_pose_workflow_path:
+            import os
+            filename = os.path.basename(scene.ai_pose_workflow_path)
+            box.label(text=f"✓ {filename}", icon='CHECKMARK')
+        else:
+            box.label(text="No workflow selected", icon='ERROR')
+        
+        layout.separator()
+        
         # Pose prompt
         box = layout.box()
         box.label(text="Pose Prompt:", icon='TEXT')
@@ -55,18 +69,32 @@ class AIPOSE_PT_MainPanel(Panel):
         col.scale_y = 1.5
         
         # Check if ready to generate
-        can_generate = bool(
-            scene.ai_pose_target_object and 
-            scene.ai_pose_armature and 
-            scene.ai_pose_prompt and
-            scene.ai_pose_workflow_path
+        can_generate = (
+            scene.ai_pose_target_object is not None and 
+            scene.ai_pose_armature is not None and 
+            bool(scene.ai_pose_prompt.strip()) and
+            bool(scene.ai_pose_workflow_path.strip())
         )
         
         col.operator("aipose.generate_pose", icon='ARMATURE_DATA', text="Generate Pose")
         col.enabled = can_generate
         
         if not can_generate:
-            box.label(text="Complete all fields above", icon='ERROR')
+            # Show which fields are missing
+            missing = []
+            if not scene.ai_pose_workflow_path.strip():
+                missing.append("Workflow")
+            if not scene.ai_pose_target_object:
+                missing.append("Target Model")
+            if not scene.ai_pose_armature:
+                missing.append("Armature")
+            if not scene.ai_pose_prompt.strip():
+                missing.append("Prompt")
+            
+            if missing:
+                box.label(text=f"Missing: {', '.join(missing)}", icon='ERROR')
+            else:
+                box.label(text="Complete all fields above", icon='ERROR')
         
         layout.separator()
         
