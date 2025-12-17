@@ -79,8 +79,9 @@ class WorkflowManager:
         Returns:
             Updated workflow dictionary
         """
-        # Make a copy to avoid modifying original
-        updated = workflow.copy()
+        # Make a deep copy to avoid modifying original
+        import copy
+        updated = copy.deepcopy(workflow)
         
         # Search for image input nodes and text nodes
         # This is a simplified approach - actual implementation would need to be
@@ -97,10 +98,11 @@ class WorkflowManager:
             if 'LoadImage' in class_type or 'Image' in class_type:
                 # Try to determine if this is for front or side view
                 # This is heuristic and may need adjustment
-                if 'front' in str(node_data).lower() or node_id == '1':
+                title = node_data.get('_meta', {}).get('title', '').lower()
+                if 'front' in title or node_id == '1':
                     if 'image' in inputs:
                         inputs['image'] = os.path.basename(front_image_path)
-                elif 'side' in str(node_data).lower() or node_id == '2':
+                elif 'side' in title or node_id == '2':
                     if 'image' in inputs:
                         inputs['image'] = os.path.basename(side_image_path)
             

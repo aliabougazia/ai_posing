@@ -75,6 +75,10 @@ class ComfyUIClient:
                 result = json.loads(response.read().decode('utf-8'))
                 return result.get('prompt_id')
                 
+        except urllib.error.HTTPError as e:
+            error_body = e.read().decode('utf-8') if e.fp else str(e)
+            print(f"Error queuing prompt: HTTP {e.code} - {error_body}")
+            return None
         except Exception as e:
             print(f"Error queuing prompt: {str(e)}")
             return None
