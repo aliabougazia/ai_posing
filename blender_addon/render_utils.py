@@ -47,11 +47,10 @@ class RenderSetup:
         render = scene.render
         
         for key, value in self.original_settings.items():
-            if '.' in key:
+            if key.startswith('image_settings_'):
                 # Handle nested attributes like image_settings.file_format
-                parts = key.split('_', 2)  # Split into [image, settings, file_format]
-                if parts[0] == 'image' and parts[1] == 'settings':
-                    setattr(render.image_settings, '_'.join(parts[2:]), value)
+                attr_name = key.replace('image_settings_', '')
+                setattr(render.image_settings, attr_name, value)
             else:
                 setattr(render, key, value)
 
